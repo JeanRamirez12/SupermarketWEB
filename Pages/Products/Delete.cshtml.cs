@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
 
-namespace SupermarketWEB.Pages.Categories
+namespace SupermarketWEB.Pages.Products
 {
     public class DeleteModel : PageModel
     {
@@ -16,43 +16,42 @@ namespace SupermarketWEB.Pages.Categories
         }
 
         [BindProperty]
-        public Category Category { get; set; } = default!;
+        public Product Product { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (category == null)
+            if (product == null)
             {
                 return NotFound();
             }
             else
             {
-                Category = category;
+                Product = product;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Categories == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
-            var category = await _context.Categories.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            if (category != null)
+            if (product != null)
             {
-                Category = category;
-                _context.Categories.Remove(Category);
+                Product = product;
+                _context.Products.Remove(Product);
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToPage("./Index");
         }
     }
